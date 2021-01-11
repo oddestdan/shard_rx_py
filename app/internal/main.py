@@ -19,8 +19,8 @@ def create_students(students: List[study_schema.Student]):
         on_next = lambda i: requests.post(
             shard_config['shard_servers'][i[1]]['address'] + "/students/", json=i[0].dict()
         ),
-        on_error = lambda e: print("Error Occurred: {0}".format(e)),
-        on_completed = lambda: print("Job finished.")
+        on_error = None,
+        on_completed = None
     )
 
 @app.get("/batch/students/", response_model=List[study_schema.Student])

@@ -26,10 +26,10 @@ async def create_student(student: study_schema.Student):
 
 @app.get("/students/", response_model = study_schema.StudentGroup)
 async def get_students_group(skip: int = 0, limit: int = 100):
-    students_query = students.select().offset(skip).limit(limit)
+    students_group_query = students.select().offset(skip).limit(limit)
     count_query = students.select().count()
 
-    db_students = await database.fetch_all(students_query)
+    db_students = await database.fetch_all(students_group_query)
     count = await database.fetch_val(count_query)
 
     return study_schema.StudentGroup(

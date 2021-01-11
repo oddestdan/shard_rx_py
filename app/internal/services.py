@@ -7,20 +7,16 @@ from .schemas import study as study_schema
 from .config.shard import shard_config
 
 async def fetch_pages(observer: Subject, i: int, uri: str, page_size: int):
-    r = requests.get(uri + f"?skip={i * page_size}&limit={page_size}")
-    payload = study_schema.StudentGroup(**r.json())
+    result = requests.get(uri + f"?skip={i * page_size}&limit={page_size}")
+    payload = study_schema.StudentGroup(**result.json())
 
-    for student in payload.data:
-        observer.on_next(student)
+    for student in payload.data: observer.on_next(student)
 
 async def fetch_from_shard(observer: Subject, uri: str, page_size: int):
-    r = requests.get(uri + f"?skip=0&limit={page_size}")
+    result = requests.get(uri + f"?skip=0&limit={page_size}")
+    payload = study_schema.StudentGroup(**result.json())
 
-    payload = study_schema.StudentGroup(**r.json())
-
-    for student in payload.data:
-        observer.on_next(student)
-
+    for student in payload.data: observer.on_next(student)
     await asyncio.gather(*[fetch_pages(observer, i, uri, page_size) for i in range(1, payload.count // page_size)])
 
 def fetch_all_students(observer: Subject, scheduler):
