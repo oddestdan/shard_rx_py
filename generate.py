@@ -12,7 +12,7 @@ data = [study_schema.Student(
     address = faker.address(),
     mail = faker.email(),
     sex = faker.simple_profile()['sex']
-  ).dict() for _ in range(50)
+  ).dict() for _ in range(10)
 ]
 
 result = requests.post(HOST + "/batch/students/", json=data)
