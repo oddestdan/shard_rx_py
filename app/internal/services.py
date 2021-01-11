@@ -37,8 +37,8 @@ def retrieve_all_students() -> List[study_schema.Student]:
 
     stream.subscribe(
         on_next=lambda i: result.append(i),
-        on_error=lambda e: print("Error Occurred: {0}".format(e)),
-        on_completed=lambda: print("Done!")
+        on_error=None,
+        on_completed=None
     )
 
     return result
