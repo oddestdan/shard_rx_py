@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  male_shard:
+    build: ./app/external
+    ports:
+      - '3001:8000'
+
+  female_shard:
+    build: ./app/external
+    ports:
+      - '3002:8000'
+
+  internal:
+    build: ./app/internal
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./app/internal:/code/internal/
