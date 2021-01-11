@@ -1,6 +1,5 @@
 import requests
 from faker import Faker
-
 from app.internal.schemas import study as study_schema
 
 faker = Faker()
@@ -12,11 +11,11 @@ data = [study_schema.Student(
     phone_number = faker.phone_number(),
     address = faker.address(),
     mail = faker.email(),
-    # sex = faker.simple_profile()['sex']
-    sex = 'M'
+    sex = faker.simple_profile()['sex']
+    # sex = 'M'
   ).dict() for _ in range(10)
 ]
 
-r = requests.post(HOST + "/batch/students/", json=data)
+result = requests.post(HOST + "/batch/students/", json=data)
 
-print("Status:", r.status_code, '\n', "Response:", r.json())
+print("Status:", result.status_code, '\n', "Response:", result.json())

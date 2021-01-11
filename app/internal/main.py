@@ -16,11 +16,11 @@ def create_students(students: List[study_schema.Student]):
     )
 
     stream.subscribe(
-        on_next=lambda i: requests.post(
+        on_next = lambda i: requests.post(
             shard_config['shard_servers'][i[1]]['address'] + "/students/", json=i[0].dict()
         ),
-        on_error=lambda e: print("Error Occurred: {0}".format(e)),
-        on_completed=lambda: print("Done!")
+        on_error = lambda e: print("Error Occurred: {0}".format(e)),
+        on_completed = lambda: print("Job finished.")
     )
 
 @app.get("/batch/students/", response_model=List[study_schema.Student])
